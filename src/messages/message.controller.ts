@@ -1,20 +1,20 @@
 import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Put, Res } from '@nestjs/common'
-import { CreateMensajeDto } from './dto/create-mensaje-dto'
-import { MensajesService } from './mensajes.service'
+import { CreateMessageDto } from './dto/create-message-dto'
+import { MessageService } from './message.service'
 
-@Controller('mensajes')
-export class MensajesController {
-    constructor(private messageService: MensajesService) {}
+@Controller('messages')
+export class MessageController {
+    constructor(private messageService: MessageService) {}
 
     @Post()
-    create(@Body() createMessageDto: CreateMensajeDto, @Res() response) {
+    create(@Body() createMessageDto: CreateMessageDto, @Res() response) {
         this.messageService
             .createMessage(createMessageDto)
             .then((message) => {
                 response.status(HttpStatus.CREATED).json(message)
             })
             .catch(() => {
-                response.status(HttpStatus.FORBIDDEN).json({ message: 'error en la creación del mensaje' })
+                response.status(HttpStatus.FORBIDDEN).json({ message: 'message creation error !!' })
             })
     }
 
@@ -26,7 +26,7 @@ export class MensajesController {
                 response.status(HttpStatus.OK).json(messageList)
             })
             .catch(() => {
-                response.status(HttpStatus.FORBIDDEN).json({ message: 'error en la ontención de los mensajes' })
+                response.status(HttpStatus.FORBIDDEN).json({ message: 'error in the retention of the messages !!' })
             })
     }
 
@@ -38,19 +38,19 @@ export class MensajesController {
                 response.status(HttpStatus.OK).json(message)
             })
             .catch(() => {
-                response.status(HttpStatus.FORBIDDEN).json({ message: `error obtener el mensaje con ID:${idMessage}` })
+                response.status(HttpStatus.FORBIDDEN).json({ message: `error get message with id ID:${idMessage}` })
             })
     }
 
     @Put(':id')
-    update(@Body() updateMessageDto: CreateMensajeDto, @Res() response, @Param('id') idMessage: number) {
+    update(@Body() updateMessageDto: CreateMessageDto, @Res() response, @Param('id') idMessage: number) {
         this.messageService
             .updateMessage(idMessage, updateMessageDto)
             .then((messageUpdated) => {
                 response.status(HttpStatus.OK).json(messageUpdated)
             })
             .catch(() => {
-                response.status(HttpStatus.FORBIDDEN).json({ message: 'error al actualizar el mensaje' })
+                response.status(HttpStatus.FORBIDDEN).json({ message: 'error updating message' })
             })
     }
 
@@ -62,7 +62,7 @@ export class MensajesController {
                 response.status(HttpStatus.OK).json()
             })
             .catch(() => {
-                response.status(HttpStatus.FORBIDDEN).json({ message: 'error al eliminar el mensaje' })
+                response.status(HttpStatus.FORBIDDEN).json({ message: 'error deleting message' })
             })
     }
 }
